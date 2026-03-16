@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.database import engine, Base
+from app.routers import auth   
 import app.models  # this import triggers model registration with Base
 
 app = FastAPI(
@@ -22,6 +23,9 @@ app.add_middleware(
     allow_methods=["*"],     # allow GET, POST, PATCH, DELETE, etc.
     allow_headers=["*"],     # allow any headers (including Authorization)
 )
+
+# Register routers — each one adds a group of related endpoints
+app.include_router(auth.router)
 
 
 # A simple health-check endpoint.
